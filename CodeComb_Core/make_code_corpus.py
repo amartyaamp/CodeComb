@@ -1,6 +1,6 @@
 ## Making the code corpus
 ## This involves
-## Hit every directory and read every .cpp files
+## Hit every directory and read every supported files
 ## Form a corpus of words without special symbols
 ## Tokenize Camel case and Hungarian to split out new words
 ## Any word below 3 letter is not Allowed
@@ -12,6 +12,7 @@ import sys
 import pickle
 
 OUTPUT_PATH= "C:\\Users\\amchau\\Desktop\\CodeComb_Outputs"
+FORMATS = ['.cpp', '.py']
 
 def handle_camel_case(text):
 
@@ -48,7 +49,7 @@ def prepare_file(filename, location):
 	return file_info
 
 
-def read_all_cpp_files(file_metas):
+def read_all_supported_files(file_metas):
 
 	print ("READING FILES")
 	print ("Total files-{}".format(len(file_metas)))
@@ -66,12 +67,12 @@ def read_all_cpp_files(file_metas):
 	
 	return file_contents
 
-def test_read_all_cpp_files():
+def test_read_all_supported_files():
 	path = "."
 
 	print ("TEST READ ALL CPP FILES")
-	files = get_cpp_files_name_location(path)
-	file_contents = read_all_cpp_files(files)
+	files = get_supported_files_name_location(path)
+	file_contents = read_all_supported_files(files)
 	print (file_contents)
 
 
@@ -87,26 +88,27 @@ def test_prepare_file():
 
 	return
 
-def get_cpp_files_name_location(path):
+def get_supported_files_name_location(path):
 
 	files = []
 
 	# r=root, d=directories, f = files
 	for r, _, f in os.walk(path):
 		for file in f:
-			if '.cpp' in file:
-				info = {}
-				info['name'] = file
-				info['location'] = r
-				files.append(info)
+			for fmt in FORMATS:
+				if fmt in file:
+					info = {}
+					info['name'] = file
+					info['location'] = r
+					files.append(info)
 	
 	return files
 
-def test_get_cpp_files_name_location():
+def test_get_supported_files_name_location():
 
-	print ("TEST GET CPP FILES NAME LOCATION")
+	print ("TEST GET SUPPORTED FILES NAME LOCATION")
 	path = "."
-	file_infos = get_cpp_files_name_location(path)
+	file_infos = get_supported_files_name_location(path)
 	print (file_infos)
 	print (len(file_infos))
 
@@ -114,8 +116,8 @@ def test_get_cpp_files_name_location():
 def get_all_files_currentdir(pickle_file):
 	PATH = "."
 
-	files = get_cpp_files_name_location(PATH)
-	file_contents = read_all_cpp_files(files)
+	files = get_supported_files_name_location(PATH)
+	file_contents = read_all_supported_files(files)
 	df_corpus = pd.DataFrame(file_contents)
 
 	print (df_corpus[['body', 'location']].head())
