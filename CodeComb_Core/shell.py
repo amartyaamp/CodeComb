@@ -74,7 +74,7 @@ def run_shell():
 
 		click.echo_via_pager(user_input)
 		#ask_question(questions, result_style)
-		if user_input != "exit":
+		if len(user_input.strip()) > 0 and user_input != "exit":
 			results =  get_query_results(user_input, topn=10)
 			results = eval(results)
 			questions_list = [res['name'] + "\t" + res['location'] for res in results]

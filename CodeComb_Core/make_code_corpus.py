@@ -169,4 +169,6 @@ if __name__ == "__main__":
 	# test_all_files_currentdir()
 	#test_embed_df_corpus()
 
+	logging.basicConfig(format="%(levelname)s - %(asctime)s: %(message)s", datefmt= '%H:%M:%S', level=logging.INFO)
+
 	init_corpus()
