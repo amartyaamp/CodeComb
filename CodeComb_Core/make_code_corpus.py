@@ -11,35 +11,18 @@ import pandas as pd
 import sys
 import pickle
 
-OUTPUT_PATH= "C:\\Users\\amchau\\Desktop\\CodeComb_Outputs"
-FORMATS = ['.cpp', '.py']
+from CodeComb_Core.embeddings import *
+from CodeComb_Core.utils import *
+from CodeComb_Core.env import *
 
-def handle_camel_case(text):
 
-	text_underscored_camelcase = re.sub(r'((?<=[a-z])[A-Z]|(?<!\A)[A-Z](?=[a-z]))', r'_\1', text) # Camelcase split
-	
-	text_result = []
-	for t in text_underscored_camelcase.split():
-
-		if "_" in t:
-			camelcases = t.split("_")
-			text_result.append("".join(camelcases))
-			text_result.append("".join(camelcases))
-		else:
-			text_result.append(t)
-	
-	return " ".join(text_result)
-
-	
-
+## Read the file and pack it into file_info dict
 def prepare_file(filename, location):
 
 	with open(os.path.join(location,filename), "r", encoding = 'latin-1') as fp:
 		file_data = fp.read()
 	
-	file_data = re.sub(r'[^a-zA-Z]+', ' ', file_data)
-	file_data = handle_camel_case(file_data) # Camelcase split
-	file_data = " ".join([s  for s in file_data.split() if len(s) > 2 and s.isalpha()])
+	#file_data = process_text(file_data)
 
 	file_info = dict()
 	file_info["body"] = file_data
@@ -49,6 +32,7 @@ def prepare_file(filename, location):
 	return file_info
 
 
+# From file metas  read all file content of supported formats
 def read_all_supported_files(file_metas):
 
 	print ("READING FILES")
@@ -68,7 +52,7 @@ def read_all_supported_files(file_metas):
 	return file_contents
 
 def test_read_all_supported_files():
-	path = "."
+	path = os.getcwd()
 
 	print ("TEST READ ALL CPP FILES")
 	files = get_supported_files_name_location(path)
@@ -79,7 +63,7 @@ def test_read_all_supported_files():
 
 def test_prepare_file():
 
-	location = "."
+	location = os.getcwd()
 	filename = "sample_cpp.cpp"
 
 	file_info = prepare_file(filename, location)
@@ -88,6 +72,7 @@ def test_prepare_file():
 
 	return
 
+# Get Metas
 def get_supported_files_name_location(path):
 
 	files = []
@@ -112,9 +97,10 @@ def test_get_supported_files_name_location():
 	print (file_infos)
 	print (len(file_infos))
 
-
+## Recursively reads all supported file names from current locations 
+## And forms a DF
 def get_all_files_currentdir(pickle_file):
-	PATH = "."
+	PATH = os.getcwd()
 
 	files = get_supported_files_name_location(PATH)
 	file_contents = read_all_supported_files(files)
@@ -124,9 +110,8 @@ def get_all_files_currentdir(pickle_file):
 	print (df_corpus.columns)
 	print (df_corpus.describe())
 
-	with open(os.path.join(OUTPUT_PATH, pickle_file),"wb") as fp:
+	with open(os.path.join(DATA_PATH, pickle_file),"wb") as fp:
 		pickle.dump(df_corpus, fp)
-
 
 
 def test_all_files_currentdir():
@@ -134,14 +119,45 @@ def test_all_files_currentdir():
 	get_all_files_currentdir("tmp.pkl")
 
 
-def run():
+## Given a df file source, it makes word-embeddings and document vectors out of it
+def embed_df_corpus(df_file):
+	print (20*"=" + "Initializing Corpus embeddings" + 20*"=")
 
-	if (len(sys.argv) < 2):
-		print ("Usage : python make_code_corpus.py df_file")
-		sys.exit(2)
+	with open(os.path.join(DATA_PATH, df_file), "rb") as dfPickled:
+		dfCorpus = pickle.load(dfPickled)
 	
-	df_file = sys.argv[1]
+	dfCorpus["corpus"] = dfCorpus["name"] + " " + dfCorpus["location"] + " " + dfCorpus["body"]
+	X = dfCorpus["corpus"].tolist()
+	X_cleaned = [process_text(X_i) for X_i in X]
+
+	## Create word embedding
+	emb = make_word_embedding(X_cleaned)
+
+	## Create Document vectors of entire corpus
+	embed_corpus(X_cleaned, emb)
+
+	print (20*"=" + "Corpus Embeddings done" + 20*"=")
+	
+def test_embed_df_corpus():
+
+	df_file = "df_corpus.pkl"
+	embed_df_corpus(df_file)
+
+
+## Initializes / Indexes the corpus in two steps
+## Gets all metas and body of the corpus
+def init_corpus(df_file="df_corpus.pkl"):
+
+	## FIXME - use python fire to generate this part
+	## And take more options
+	init_path() ## Ensure all output dirs in place
+
+
+	print (20*"#" + "prepping the corpus")
+	t = time()
 	get_all_files_currentdir(df_file)
+	embed_df_corpus(df_file)
+	print('Time taken to init: {} mins'.format(round((time() - t) / 60, 2)))
 	
 
 if __name__ == "__main__":
@@ -151,4 +167,6 @@ if __name__ == "__main__":
 	# test_get_cpp_files_name_location()
 	# test_read_all_cpp_files()
 	# test_all_files_currentdir()
-	run()
+	#test_embed_df_corpus()
+
+	init_corpus()
