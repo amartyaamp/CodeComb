@@ -7,9 +7,10 @@ from pyfiglet import figlet_format
 import cutie
 from tqdm import tqdm
 import click
+import configparser
+
 from CodeComb_Core.query import *
 from CodeComb_Core.make_code_corpus import *
-
 
 ## Either colorama or termcolor
 try:
@@ -22,6 +23,25 @@ try:
 	from termcolor import colored
 except ImportError:
 	colored = None
+
+
+## Set the format config
+def set_format():
+
+	format_opts = {"C++":"cpp", "Python":"py"}
+	log('Choose filetype (use up/down keys):', 'yellow')
+	format_keys = list(format_opts.keys())
+	answers = cutie.select_multiple(format_keys)
+
+	## Store the config file
+	config = configparser.ConfigParser()
+	config['FORMAT'] = dict((format_keys[ans], format_opts[format_keys[ans]]) \
+		 for ans in answers)
+	
+	with open('config.ini', "w") as fmtFile:
+		config.write(fmtFile)
+		
+
 
 
 ## Stylish text output
@@ -49,17 +69,22 @@ def get_list_selection(questions, captions=None, selected=None):
 	return answer
 
 
+def clrscr():
+
+	os.system('cls') # Windows
+	os.system('clear') # Linux
+
 def run_shell():
 
-	os.system('cls')
-	os.system('clear')
+	clrscr()
 	## Title logo
 	log ('CodeComb', 'green', 'slant', True)
 	log ('Welcome to CodeComb!!', 'yellow')
 	log ('Start searching below...', 'yellow')
 
 	## 
-	if cutie.prompt_yes_or_no(colored('Index Corpus ? ', 'yellow')):
+	if cutie.prompt_yes_or_no(colored('Index Corpus ? (Use up/down keys) ', 'yellow')):
+		set_format()
 		init_corpus()
 
 	## Codecomb REPL
@@ -79,6 +104,7 @@ def run_shell():
 			results = eval(results)
 			questions_list = [res['name'] + "\t" + res['location'] for res in results]
 			questions_list.append('back')
+			questions_list = [colored(question, 'magenta') for question in questions_list]
 
 			## Search results mode
 			answer = get_list_selection(questions_list)
@@ -87,6 +113,7 @@ def run_shell():
 				name, loc = answer_row['name'], answer_row['location']
 				logging.info(answer)
 				open_editor(name, loc)
+				clrscr()
 				answer = get_list_selection(questions_list, selected=answer)
 			#testTQDM()
 

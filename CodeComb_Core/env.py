@@ -3,7 +3,7 @@ import os
  ## FIXME  most of the path variables should come from env vars
 PWD = os.getcwd()
 OUTPUT_PATH= os.path.join(PWD, "CodeComb_Outputs")
-FORMATS = ['.cpp']
+#FORMATS = ['.cpp']
 DATA_PATH = os.path.join(PWD, "CodeComb_Data")
 DF_FILE = "df_corpus"
 

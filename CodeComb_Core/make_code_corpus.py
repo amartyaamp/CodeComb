@@ -10,6 +10,7 @@ import os
 import pandas as pd
 import sys
 import pickle
+import configparser
 
 from CodeComb_Core.embeddings import *
 from CodeComb_Core.utils import *
@@ -28,6 +29,7 @@ def prepare_file(filename, location):
 	file_info["body"] = file_data
 	file_info["name"] = filename
 	file_info["location"] = " ".join(location.split("/"))
+	file_info["ext"] = filename[filename.rfind('.')+1:]
 
 	return file_info
 
@@ -72,6 +74,16 @@ def test_prepare_file():
 
 	return
 
+## Load Formats from the config file
+
+def load_format():
+	config = configparser.ConfigParser()
+	config.read('config.ini')
+	fmts = list(config['FORMAT'].values())
+
+	formats_list = ["."+fmt  for fmt in fmts]
+	return formats_list
+
 # Get Metas
 def get_supported_files_name_location(path):
 
@@ -80,7 +92,8 @@ def get_supported_files_name_location(path):
 	# r=root, d=directories, f = files
 	for r, _, f in os.walk(path):
 		for file in f:
-			for fmt in FORMATS:
+			formats = load_format()
+			for fmt in formats:
 				if fmt in file:
 					info = {}
 					info['name'] = file
@@ -106,9 +119,9 @@ def get_all_files_currentdir(pickle_file):
 	file_contents = read_all_supported_files(files)
 	df_corpus = pd.DataFrame(file_contents)
 
-	print (df_corpus[['body', 'location']].head())
-	print (df_corpus.columns)
-	print (df_corpus.describe())
+	logging.info (df_corpus[['body', 'location']].head())
+	logging.info (df_corpus.columns)
+	logging.info (df_corpus.describe())
 
 	with open(os.path.join(DATA_PATH, pickle_file),"wb") as fp:
 		pickle.dump(df_corpus, fp)
@@ -153,7 +166,7 @@ def init_corpus(df_file="df_corpus.pkl"):
 	init_path() ## Ensure all output dirs in place
 
 
-	print (20*"#" + "prepping the corpus")
+	print (20*"#" + "prepping the corpus" + 20*"#")
 	t = time()
 	get_all_files_currentdir(df_file)
 	embed_df_corpus(df_file)
