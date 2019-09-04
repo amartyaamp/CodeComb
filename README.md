@@ -25,7 +25,7 @@ Before you install we need to admit some assumptions we have made so far.
 ### Install
 - Install [python3](https://www.python.org/downloads/) ( [Conda](https://www.anaconda.com/distribution/) for Windows users) 
 - Install pip ( [Linux](https://www.tecmint.com/install-pip-in-linux/) | [Windows](https://www.liquidweb.com/kb/install-pip-windows/) )
-- Install codecomb and its dependencies `pip install Codecomb`
+- Install codecomb and its dependencies `pip install CodeComb`
 
 That's all!
 
