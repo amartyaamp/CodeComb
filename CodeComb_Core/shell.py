@@ -102,7 +102,7 @@ def run_shell():
 				results = eval(results)
 				questions_list = [res['name'] + "\t" + res['location'] for res in results]
 				questions_list.append('back')
-				questions_list = [colored(question, 'magenta') for question in questions_list]
+				questions_list = [colored(question, 'green') for question in questions_list]
 
 				## Search results mode
 				answer = get_list_selection(questions_list)

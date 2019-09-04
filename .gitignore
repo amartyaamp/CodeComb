@@ -5,3 +5,4 @@ __pycache__
 build/
 dist/
 CodeComb.egg-info/
+history.txt
