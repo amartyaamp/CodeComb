@@ -1,4 +1,6 @@
 *.py[cod]
-CodeComb_Outputs
-CodeComb_Data
+CodeComb_Outputs/
+CodeComb_Data/
 __pycache__
+bin/
+dist/
