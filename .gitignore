@@ -4,3 +4,4 @@ CodeComb_Data/
 __pycache__
 bin/
 dist/
+CodeComb.egg-info/
