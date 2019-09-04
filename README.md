@@ -38,7 +38,7 @@ The intended use of codecomb is through its CLI.
 2. This will open the first time config options. Choose your editor and formats you want to support.
 ![Options](static_files/codecomb_options.gif)
 3. Select "Yes" for "Index your folder". This will take time depends on no. of files.
-![Index](static_files/codecomb_index.jpg)
+![Index](static_files/codecomb-index.jpg)
 4. Upon completion. Press enter to goto search mode.
 5. Each search results opens in editor you have chosen in (2)
 
