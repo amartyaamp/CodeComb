@@ -2,6 +2,6 @@
 CodeComb_Outputs/
 CodeComb_Data/
 __pycache__
-bin/
+build/
 dist/
 CodeComb.egg-info/
