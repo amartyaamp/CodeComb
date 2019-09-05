@@ -9,6 +9,7 @@ import cutie
 from tqdm import tqdm
 import click
 import configparser
+import json
 
 from CodeComb_Core.query import *
 from CodeComb_Core.make_code_corpus import *
@@ -113,7 +114,8 @@ def run_shell(debug=False):
 			if results == "error":
 				log("Keyword(s) not found!!", 'red')
 			else:
-				results = eval(results)
+				results = json.loads(results)
+				logging.info(results)
 				questions_list = [res['name'] + "\t" + res['location'] for res in results]
 				questions_list.append('back')
 				questions_list = [colored(question, 'green') for question in questions_list]
