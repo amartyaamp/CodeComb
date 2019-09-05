@@ -23,8 +23,13 @@ from CodeComb_Core.embeddings import *
 
 	
 
-def get_query_results(query='test',topn=10):
+def get_query_results(query='test',topn=10, debug=False):
 	
+	## Set debug mode
+	if debug:
+		logging.basicConfig(level=logging.INFO)
+		logging.info("Debug mode on")
+
 	w2v_model = Word2Vec.load(W2V_MODEL_PATH)
 	
 	try:

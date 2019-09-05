@@ -28,7 +28,7 @@ def prepare_file(filename, location):
 	file_info = dict()
 	file_info["body"] = file_data
 	file_info["name"] = filename
-	file_info["location"] = " ".join(location.split("/"))
+	file_info["location"] = location
 	file_info["ext"] = filename[filename.rfind('.')+1:]
 
 	return file_info
@@ -159,11 +159,15 @@ def test_embed_df_corpus():
 
 ## Initializes / Indexes the corpus in two steps
 ## Gets all metas and body of the corpus
-def init_corpus(df_file="df_corpus.pkl"):
+def init_corpus(df_file="df_corpus.pkl", debug=False):
 
-	## FIXME - use python fire to generate this part
-	## And take more options
-	init_path() ## Ensure all output dirs in place
+	## Set debug mode
+	if debug:
+		logging.basicConfig(level=logging.INFO)
+		logging.info("Debug mode on")
+
+	## Ensure all output dirs in place
+	init_path()
 
 
 	print (20*"#" + "prepping the corpus" + 20*"#")

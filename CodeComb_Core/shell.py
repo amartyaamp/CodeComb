@@ -2,6 +2,7 @@ from prompt_toolkit.history import FileHistory
 from prompt_toolkit import prompt as pt
 from prompt_toolkit.auto_suggest import AutoSuggestFromHistory
 from prompt_toolkit.completion import Completer, Completion
+from prompt_toolkit.key_binding import KeyBindings
 
 from pyfiglet import figlet_format
 import cutie
@@ -15,16 +16,15 @@ from CodeComb_Core.config_shell import *
 
 ## Either colorama or termcolor
 try:
-    import colorama
-    colorama.init()
+	import colorama
+	colorama.init()
 except ImportError:
-    colorama = None
+	colorama = None
 
 try:
 	from termcolor import colored
 except ImportError:
 	colored = None
-
 
 ## Stylish text output
 def log(string, color, font="slant", figlet=False):
@@ -36,6 +36,15 @@ def log(string, color, font="slant", figlet=False):
 				string, font=font), color))
 	else:
 		print(string)
+
+
+binding = KeyBindings()
+
+@binding.add('c-d')
+def _(event):
+
+	log("Ctrl-D . Exiting CodeComb", 'yellow')
+	event.app.exit()
 
 
 def open_editor(name, location):
@@ -63,8 +72,13 @@ def clrscr():
 	os.system('cls') # Windows
 	os.system('clear') # Linux
 
-def run_shell():
+def run_shell(debug=False):
 
+
+	## Set debug mode
+	if debug:
+		logging.basicConfig(level=logging.INFO)
+		logging.info("Debug mode on")
 
 	## If the config file not found
 	if not os.path.exists(os.path.join(os.environ['HOME'], "codecomb_config.ini")):

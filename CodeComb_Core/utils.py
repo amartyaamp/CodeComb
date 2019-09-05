@@ -1,6 +1,15 @@
 import re
-from nltk.corpus import stopwords
 import logging
+
+## FIXME - catching import exception to download stopwords, any better way?
+try:
+	from nltk.corpus import stopwords
+except ImportError:
+	import nltk
+	nltk.download('stopwords')
+	from nltk.corpus import stopwords
+
+
 
 def processInput(text):
 	

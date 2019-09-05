@@ -9,9 +9,6 @@ from CodeComb_Core.shell import *
 
 
 def run(debug=False):
-    if debug:
-        logging.basicConfig(level=logging.INFO)
-        logging.info("Debug mode on")
 
     fire.Fire({ 'q': get_query_results, 'init': init_corpus, 'shell': run_shell })
 
