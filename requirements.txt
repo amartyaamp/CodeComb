@@ -3,7 +3,7 @@ gensim==3.4.0
 termcolor==1.1.0
 fire==0.2.1
 cutie==0.2.2
-numpy==1.15.4
+numpy>=1.16.*
 pip==19.2.3
 tqdm==4.35.0
 nltk>=3.4.5

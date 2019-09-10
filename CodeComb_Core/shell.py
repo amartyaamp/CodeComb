@@ -54,7 +54,7 @@ def open_editor(name, location):
 	log ("Path - {}".format(path_to_file), "yellow")
 
 	config = configparser.ConfigParser()
-	config.read(os.path.join(os.environ['HOME'], "codecomb_config.ini"))
+	config.read(os.path.join(os.path.expanduser('~'), "codecomb_config.ini"))
 	start_editor_cmd = str(config['EDITOR']['startcmd'])
 	print (start_editor_cmd)
 
@@ -82,7 +82,7 @@ def run_shell(debug=False):
 		logging.info("Debug mode on")
 
 	## If the config file not found
-	if not os.path.exists(os.path.join(os.environ['HOME'], "codecomb_config.ini")):
+	if not os.path.exists(os.path.join(os.path.expanduser('~'), "codecomb_config.ini")):
 		config_shell()
 
 
