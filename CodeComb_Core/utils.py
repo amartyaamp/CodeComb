@@ -4,7 +4,7 @@ import logging
 ## FIXME - catching import exception to download stopwords, any better way?
 try:
 	from nltk.corpus import stopwords
-except ImportError:
+except (ImportError, LookupError):
 	import nltk
 	nltk.download('stopwords')
 	from nltk.corpus import stopwords

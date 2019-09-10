@@ -19,13 +19,13 @@ Before you install we need to admit some assumptions we have made so far.
 - Code is readable in english. We need natural language variable names, functions, comments
 - Python 3.4+  (Recommend [Anaconda](https://www.anaconda.com/distribution/) for Windows)
 - ANSI CLI (cmd should work, but I highly Recommend [cmder](https://cmder.net) for Windows)
-- Current editor support - VSCode / Vim only
-- This is Language agnostic. But this initial release reads only .py and .cpp extensions
+- Current editor support - VSCode, Vim, Sublime Text, Atom, Notepad, Notepad++
+- This is Language agnostic. But this initial release reads only `.py, .cpp, .cs, .java` extensions
 
 ### Install
 - Install [python3](https://www.python.org/downloads/) ( [Conda](https://www.anaconda.com/distribution/) for Windows users) 
 - Install pip ( [Linux](https://www.tecmint.com/install-pip-in-linux/) | [Windows](https://www.liquidweb.com/kb/install-pip-windows/) )
-- Install codecomb and its dependencies `pip install CodeComb`
+- Install codecomb and its dependencies `pip install CodeComb` (Need admin permissions for this)
 
 That's all!
 
@@ -34,7 +34,7 @@ That's all!
 ### First time
 The intended use of codecomb is through its CLI.
 
-1. Go to your intended folder and `codecomb shell`
+1. Go to your intended source folder and `codecomb shell` (Conda users need to activate the conda environment before this)
 2. This will open the first time config options. Choose your editor and formats you want to support.
 ![Options](static_files/codecomb_options.gif)
 3. Select "Yes" for "Index your folder". This will take time depends on no. of files.
