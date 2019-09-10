@@ -27,7 +27,7 @@ def set_format():
 	## Store the config file
 	config = configparser.ConfigParser()
 
-	home = os.environ['HOME']
+	home = os.path.expanduser("~")
 	config_file = os.path.join(home, "codecomb_config.ini")
 	config.read(config_file)
 
@@ -51,7 +51,7 @@ def set_editor():
 
 	## Store the config file
 	config = configparser.ConfigParser()
-	home = os.environ['HOME']
+	home = os.path.expanduser("~")
 	config_file = os.path.join(home, "codecomb_config.ini")
 	config.read(config_file)
 

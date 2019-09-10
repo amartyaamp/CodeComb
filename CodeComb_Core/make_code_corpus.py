@@ -78,7 +78,7 @@ def test_prepare_file():
 
 def load_format():
 	config = configparser.ConfigParser()
-	config.read(os.path.join(os.environ['HOME'], "codecomb_config.ini"))
+	config.read(os.path.join(os.path.expanduser("~"), "codecomb_config.ini"))
 	fmts = list(config['FORMAT'].values())
 
 	formats_list = ["."+fmt  for fmt in fmts]

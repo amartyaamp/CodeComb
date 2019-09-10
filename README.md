@@ -18,7 +18,7 @@ Before you install we need to admit some assumptions we have made so far.
 
 - Code is readable in english. We need natural language variable names, functions, comments
 - Python 3.4+  (Recommend [Anaconda](https://www.anaconda.com/distribution/) for Windows)
-- ANSI CLI (cmd is not enough. Highly Recommend [cmder](https://cmder.net) for Windows)
+- ANSI CLI (cmd should work, but I highly Recommend [cmder](https://cmder.net) for Windows)
 - Current editor support - VSCode / Vim only
 - This is Language agnostic. But this initial release reads only .py and .cpp extensions
 
