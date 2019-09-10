@@ -46,6 +46,7 @@ def set_editor():
 
 	editor_opts = {"Vim":"vim ", "VSCode":"start code ", 
 					"Notepad++":"Notepad++", "Sublime Text": "subl", "Atom":"atom"}
+	print(colored('Editor selection (should be launchable from terminal)', 'yellow'))
 	print(colored('Choose editor (use up/down keys):', 'yellow'))
 	editor_keys = list(editor_opts.keys())
 	answer = cutie.select(editor_keys, selected_index=0)

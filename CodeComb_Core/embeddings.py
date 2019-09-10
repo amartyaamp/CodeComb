@@ -20,6 +20,7 @@ def make_word_embedding(w2v_input):
 	w2v_model.build_vocab(w2v_input, progress_per=10000)
 	print('Time to build vocab: {} mins'.format(round((time() - t) / 60, 2)))
 
+	print ("Training model (this might take some time)")
 	t = time()
 	w2v_model.train(w2v_input, total_examples=w2v_model.corpus_count, epochs=100, report_delay=1)
 
