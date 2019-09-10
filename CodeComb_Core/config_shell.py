@@ -19,7 +19,7 @@ except ImportError:
 ## Set the format config
 def set_format():
 
-	format_opts = {"C++":"cpp", "Python":"py"}
+	format_opts = {"C++":"cpp", "Python":"py", "C#":"cs", "Java":"java"}
 	print(colored('Choose filetype (use up/down keys):', 'yellow'))
 	format_keys = list(format_opts.keys())
 	answers = cutie.select_multiple(format_keys)
@@ -44,7 +44,8 @@ def set_format():
 
 def set_editor():
 
-	editor_opts = {"Vim":"vim ", "VSCode":"start code "}
+	editor_opts = {"Vim":"vim ", "VSCode":"start code ", 
+					"Notepad++":"Notepad++", "Sublime Text": "subl", "Atom":"atom"}
 	print(colored('Choose editor (use up/down keys):', 'yellow'))
 	editor_keys = list(editor_opts.keys())
 	answer = cutie.select(editor_keys, selected_index=0)
