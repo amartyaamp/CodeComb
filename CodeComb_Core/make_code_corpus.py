@@ -5,7 +5,6 @@
 ## Tokenize Camel case and Hungarian to split out new words
 ## Any word below 3 letter is not Allowed
 
-import re
 import os
 import pandas as pd
 import sys
@@ -147,7 +146,8 @@ def embed_df_corpus(df_file):
 	emb = make_word_embedding(X_cleaned)
 
 	## Create Document vectors of entire corpus
-	embed_corpus(X_cleaned, emb)
+	#embed_corpus(X_cleaned, emb)
+	make_annoy_index(X_cleaned, emb)
 
 	print (20*"=" + "Corpus Embeddings done" + 20*"=")
 	

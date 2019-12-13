@@ -1,14 +1,6 @@
 import re
 import logging
-
-## FIXME - catching import exception to download stopwords, any better way?
-try:
-	from nltk.corpus import stopwords
-except (ImportError, LookupError):
-	import nltk
-	nltk.download('stopwords')
-	from nltk.corpus import stopwords
-
+from gensim.parsing.preprocessing import remove_stopwords
 
 
 def processInput(text):
@@ -17,8 +9,7 @@ def processInput(text):
 	f = lambda x : re.sub(r'[^a-zA-Z]+', ' ', x)
 	g = lambda x : x.strip()
 	text = g(f(text))
-	stop_words = stopwords.words('english')
-	text = " ".join([t for t in text.split() if t not in stop_words])
+	text =  remove_stopwords(text)
 	text = " ".join([s.lower()  for s in text.split() if len(s) > 2 and s.isalpha()])
 
 	return text

@@ -7,6 +7,24 @@ import numpy as np
 import pickle
 from CodeComb_Core.env import *
 from CodeComb_Core.utils import *
+from annoy import AnnoyIndex
+from tqdm.auto import tqdm
+from gensim.models.callbacks import CallbackAny2Vec
+
+
+## Provide info to user about the word2vec training
+class EpochLogger(CallbackAny2Vec):
+	'''Callback to log information about training'''
+	
+	def __init__(self, total_epochs):
+		self.epoch = 0
+		self.total_epochs = total_epochs
+
+	def on_epoch_begin(self, model):
+		print("Epoch #{} / {}".format(self.epoch, self.total_epochs))
+
+	def on_epoch_end(self, model):
+		self.epoch += 1
 
 
 # Given a corpus (= unsplitted docs) train word embedding model on it
@@ -20,9 +38,15 @@ def make_word_embedding(w2v_input):
 	w2v_model.build_vocab(w2v_input, progress_per=10000)
 	print('Time to build vocab: {} mins'.format(round((time() - t) / 60, 2)))
 
-	print ("Training model (this might take some time)")
+	print ("Training word-embedding model (this might take some time)")
 	t = time()
-	w2v_model.train(w2v_input, total_examples=w2v_model.corpus_count, epochs=100, report_delay=1)
+
+	emb_epochs = 200
+	# epochlogger = EpochLogger(emb_epochs)
+	# w2v_model.train(w2v_input, total_examples=w2v_model.corpus_count, epochs=emb_epochs, callbacks=[epochlogger])
+	
+	for _ in tqdm(range(emb_epochs)):
+		w2v_model.train(w2v_input, total_examples=w2v_model.corpus_count, epochs=1)
 
 	print('Time to train the model: {} mins'.format(round((time() - t) / 60, 2)))
 	w2v_model.save(W2V_MODEL_PATH)
@@ -100,6 +124,24 @@ def embed_corpus(corpus, model):
 		pickle.dump(doc_emb, fp)
 
 	return doc_emb
+	
+def make_annoy_index(corpus, model):
+
+	t = time()
+	print ("Emebedding every doc")
+	doc_emb = np.array([make_doc_vec(doc, model) for doc in list(corpus) ])
+
+	print ("Time taken - {}".format(time() -t ))
+
+	print ("Preparing Annoy Index")
+	dim = model.vector_size ## Word2vec dimension
+	ann_index = AnnoyIndex(dim, 'angular')  # Length of item vector that will be indexed
+	for i, doc in enumerate(doc_emb):
+		ann_index.add_item(i, doc)
+
+	ann_index.build(100) # trees
+	ann_index.save(ANN_INDEX_PATH)
+
 	
 def test_embed_corpus():
 

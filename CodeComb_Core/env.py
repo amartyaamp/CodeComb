@@ -8,6 +8,7 @@ DATA_PATH = os.path.join(PWD, "CodeComb_Data")
 DF_FILE = "df_corpus"
 
 DOC_EMB_PATH = os.path.join(OUTPUT_PATH, "doc_emb_" + DF_FILE)
+ANN_INDEX_PATH = os.path.join(OUTPUT_PATH, "annoy_" + DF_FILE)
 W2V_MODEL_PATH = os.path.join(OUTPUT_PATH, "w2v_model_" + DF_FILE)
 DF_PATH = os.path.join(DATA_PATH, DF_FILE)
 

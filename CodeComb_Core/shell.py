@@ -110,7 +110,7 @@ def run_shell(debug=False):
 			)
 
 		if len(user_input.strip()) > 0 and user_input != "exit":
-			results =  get_query_results(user_input, topn=10)
+			results =  get_query_results_annoyindex(user_input, topn=10)
 			if results == "error":
 				log("Keyword(s) not found!!", 'red')
 			else:
