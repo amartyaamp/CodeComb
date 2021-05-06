@@ -8,7 +8,7 @@ pip==19.2.3
 tqdm==4.35.0
 prompt_toolkit==2.0.9
 click==6.7
-Flask_Cors==3.0.3
+Flask_Cors==3.0.9
 pandas>=0.25.1
 pyfiglet==0.8.post1
 setuptools==41.2.0
