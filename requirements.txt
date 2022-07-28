@@ -4,7 +4,7 @@ termcolor==1.1.0
 fire==0.2.1
 cutie==0.2.2
 numpy>=1.16.*
-pip==19.2.3
+pip==21.1
 tqdm==4.35.0
 prompt_toolkit==2.0.9
 click==6.7
