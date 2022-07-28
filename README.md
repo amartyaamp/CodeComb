@@ -1,6 +1,8 @@
 # CodeComb
 ![CodeComb logo](static_files/codecomb-1.jpg)
 
+*[Project no longer developed. Used for reference purposes only.]*
+
 ## Introduction
 Codecomb is a CLI tool to search your repo with natural language queries.
 Can also be used as a library to add NLP search functionality to existing code browsers.
